@@ -13,7 +13,7 @@ import com.auction.repository.TransactionHistoryRepository;
 
 @Service
 public class TransactionHistoryService {
-    // @Autowired
+    @Autowired
     private TransactionHistoryRepository transactionHistoryRepository;
 
     public List<TransactionHistory> findByClientId(int clientId) {

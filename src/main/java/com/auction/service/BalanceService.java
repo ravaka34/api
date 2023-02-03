@@ -25,7 +25,7 @@ public class BalanceService {
     @Autowired
     private BalanceLRRepository balanceLRRepository;
 
-    // @Autowired
+    @Autowired
     private TransactionHistoryRepository transactionHistoryRepository;
 
     @Autowired
