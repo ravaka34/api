@@ -20,6 +20,10 @@ import com.auction.repository.balance.BalanceLRRepository;
 import com.auction.repository.balance.BalanceRepository;
 import com.auction.repository.balance.BalanceStateRepository;
 
+import com.auction.repository.balance.BalanceProfilRepo;
+import com.auction.model.balance.BalanceProfil ;
+
+
 @Service
 public class BalanceService {
     @Autowired
@@ -36,6 +40,9 @@ public class BalanceService {
 
     @Autowired
     private AuctionRepository auctionRepository;
+
+    @Autowired
+    private BalanceProfilRepo balanceProfilRepo;
 
     @Autowired
     private BalanceStateRepository balanceStateRepository;
@@ -94,7 +101,7 @@ public class BalanceService {
         TransactionHistory transactionHistory = new TransactionHistory(transactionId, amount, transactionDate);
         transactionHistory.setClient(clientRepository.findById(clientId).get());
         if(auctionId != null){
-            transactionHistory.setAuction(auctionRepository.findById(auctionId).get());
+            transactionHistory.setAuctionId(auctionRepository.findById(auctionId).get().getId());
         }
         transactionHistoryRepository.save(transactionHistory);
         return true;
@@ -104,5 +111,9 @@ public class BalanceService {
         balanceLoadRequest.setState(balanceStateRepository.findById(20).get());
         balanceLRRepository.save(balanceLoadRequest);
         return true;
+    }
+
+    public BalanceProfil getBalance (Integer id){
+        return balanceProfilRepo.findByClientId(id);
     }
 }

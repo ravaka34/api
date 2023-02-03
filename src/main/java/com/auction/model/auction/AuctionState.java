@@ -56,5 +56,9 @@ public class AuctionState extends HasId {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name = "auction_id")
+    private List<AuctionBet> auctionBetList;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "auction_id")
     private List<ProductPicture> productPictureList;   
 }

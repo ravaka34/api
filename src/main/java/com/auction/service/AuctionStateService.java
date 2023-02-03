@@ -10,6 +10,9 @@ import com.auction.model.auction.AuctionSearch;
 import com.auction.model.auction.AuctionState;
 import com.auction.model.category.Category;
 import com.auction.repository.auction.AuctionStateRepository;
+import java.util.Collections;
+import java.util.Comparator;
+import com.auction.model.auction.AuctionBet;
 
 @Service
 public class AuctionStateService {
@@ -24,6 +27,12 @@ public class AuctionStateService {
     public List<AuctionState> findByCategoryId(int categoryId) {
         return repo.findByCategoryId(categoryId);
         
+    }
+
+    public AuctionState findById(Integer id) {
+         AuctionState auction = repo.findById(id).get();
+         Collections.sort(auction.getAuctionBetList() , Comparator.comparing(AuctionBet::getAmount).reversed());
+         return auction;
     }
 
     public List<AuctionState> search(AuctionSearch search) {

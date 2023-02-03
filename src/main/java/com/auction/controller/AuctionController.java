@@ -78,4 +78,6 @@ public class AuctionController {
     public Data findByCategoryId(@PathVariable int categoryId) {
         return new Data(service.findByCategoryId(categoryId), HttpStatus.OK);
     }
+
+    
 }

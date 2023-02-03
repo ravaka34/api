@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.auction.model.balance.BalanceLoadRequest;
 import com.auction.model.common.Data;
 import com.auction.service.BalanceService;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 @RestController
 @CrossOrigin
 public class BalanceController {
     @Autowired
     private BalanceService balanceService;
+
 
     @GetMapping("/balance/load-request")
     public Data getAllBLRequest() {
@@ -32,6 +35,11 @@ public class BalanceController {
     @PostMapping("/balance/reload-account")
     public Data createReloadAccount(@RequestBody BalanceLoadRequest balanceLoadRequest) {
         return new Data(balanceService.reloadAccount(balanceLoadRequest), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/client/{id}/balance")
+    public Data getBalance(@PathVariable Integer id) {
+        return new Data(balanceService.getBalance(id), HttpStatus.CREATED);
     }
 
 }

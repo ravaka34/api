@@ -68,7 +68,7 @@ public class Auction extends HasId {
     public AuctionBet retrieveLastAuctionBet() {
         List<AuctionBet> bets = getAuctionBetList();
         if(bets.size() == 0){
-            throw null;
+            return null;
         }
         Collections.sort(bets, Comparator.comparing(AuctionBet::getAmount).reversed());
         return bets.get(0);

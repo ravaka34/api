@@ -11,7 +11,6 @@ import com.auction.model.common.HasId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 @Entity

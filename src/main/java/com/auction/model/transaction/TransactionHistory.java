@@ -8,7 +8,6 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.auction.model.Client;
-import com.auction.model.auction.Auction;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +21,7 @@ public class TransactionHistory {
     private String transactionName;
     private String transactionType;
     private Client client;
-    private Auction auction;
+    private Integer auctionId;
     private Double amount;
     private Date dateTransaction;
 

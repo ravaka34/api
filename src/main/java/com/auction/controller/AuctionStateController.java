@@ -24,7 +24,7 @@ public class AuctionStateController {
     AuctionStateService service;
 
 
-    @GetMapping("/client/{clientId}/auction-state")
+    @GetMapping("/client/{clientId}/auction-state")     
     public Data findByClientId(@PathVariable Integer clientId){
         System.out.println("client id ==> " + clientId);
         return new Data(service.findByClientId(clientId)) ;
@@ -38,5 +38,10 @@ public class AuctionStateController {
     @PostMapping("/auction-state/search")
     public Data searchAuction(@RequestBody AuctionSearch auctionSearch) {
         return new Data(service.search(auctionSearch));
+    }
+
+    @GetMapping("/auction-state/{id}")
+    public Data findById(@PathVariable Integer id) {
+        return new Data(service.findById(id), HttpStatus.OK);
     }
 }

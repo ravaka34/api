@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
+import java.time.LocalDate;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import com.auction.model.ProductPicture;
 import com.auction.model.auction.Auction;
 import com.auction.model.auction.AuctionBet;
 import com.auction.model.auction.AuctionSearch;
+import com.auction.model.balance.BalanceProfil;
 import com.auction.model.category.Category;
 import com.auction.repository.auction.AuctionBetRepository;
 import com.auction.repository.auction.AuctionRepository;
@@ -54,10 +57,14 @@ public class AuctionService {
     }
 
     @Transactional(rollbackOn = Exception.class)
-    public boolean betOn(AuctionBet auctionBet) throws BetOnSelfException, WrongValueException {
+    public AuctionBet betOn(AuctionBet auctionBet) throws BetOnSelfException, WrongValueException {
         Auction auction = auctionRepository.findById(auctionBet.getAuctionId()).get();
-        if(auction.getClient() == auctionBet.getClient()) {
-            throw new BetOnSelfException();
+        BalanceProfil bal = balanceService.getBalance(auctionBet.getClient().getId());
+        if(bal.getAmount() <= 0 || bal.getAmount() < auctionBet.getAmount() ){
+            throw new WrongValueException("You don t have money");
+        }
+        if(auction.getClient().getId() == auctionBet.getClient().getId()) {
+            throw new WrongValueException("Can not bet on your own auction");
         }
         if (auction.getAmountMin() > auctionBet.getAmount()) {
             throw new WrongValueException("Amount is too low");
@@ -72,12 +79,15 @@ public class AuctionService {
             balanceService.saveTransaction(lastAuctionBet.getClient().getId(), lastAuctionBet.getAmount(),
                    auctionBet.getDateBet(), 20, auctionBet.getAuctionId());
         }
-        balanceService.debitAccount(auctionBet.getClient().getId(), auctionBet.getAmount()*(-1));
+    
+        balanceService.debitAccount(auctionBet.getClient().getId(), auctionBet.getAmount());
         // bloquer
+        Date now =  Date.valueOf(LocalDate.now());
+        auctionBet.setDateBet(now);
         balanceService.saveTransaction(auctionBet.getClient().getId(), auctionBet.getAmount(),
-                auctionBet.getDateBet() , 10, auctionBet.getAuctionId());
+        now , 10, auctionBet.getAuctionId());
         auctionBetRepo.save(auctionBet);
-        return true;
+        return auctionBet;
     }
     
     public List<Auction> findCurrentAuctions() {
