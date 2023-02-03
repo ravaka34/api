@@ -60,6 +60,9 @@ public class AuctionService {
     public AuctionBet betOn(AuctionBet auctionBet) throws BetOnSelfException, WrongValueException {
         Auction auction = auctionRepository.findById(auctionBet.getAuctionId()).get();
         BalanceProfil bal = balanceService.getBalance(auctionBet.getClient().getId());
+        // bloquer
+        Date now =  Date.valueOf(LocalDate.now());
+        auctionBet.setDateBet(now);
         if(bal.getAmount() <= 0 || bal.getAmount() < auctionBet.getAmount() ){
             throw new WrongValueException("You don t have money");
         }
@@ -81,9 +84,6 @@ public class AuctionService {
         }
     
         balanceService.debitAccount(auctionBet.getClient().getId(), auctionBet.getAmount());
-        // bloquer
-        Date now =  Date.valueOf(LocalDate.now());
-        auctionBet.setDateBet(now);
         balanceService.saveTransaction(auctionBet.getClient().getId(), auctionBet.getAmount(),
         now , 10, auctionBet.getAuctionId());
         auctionBetRepo.save(auctionBet);
