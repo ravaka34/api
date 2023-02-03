@@ -105,6 +105,7 @@ public class AuctionService {
         if(auction.getDuration() < category.getMinDuration() || auction.getDuration() > category.getMaxDuration()) {
             throw new WrongValueException("Duration is not in the range");
         }
+        //test
         if(auction.getProductPictureList() == null || auction.getProductPictureList().isEmpty()){
             throw new WrongValueException("Product picture is mandatory");
         }
