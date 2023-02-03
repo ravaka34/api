@@ -34,7 +34,7 @@ public class TransactionHistory {
             transactionName = "Debloquer sur un enchere";
             transactionType = "Entre";
         }
-        if(transactionId == 10){
+        if(transactionId == 30){
             transactionName = "Recharger";
             transactionType = "Entre";
         }

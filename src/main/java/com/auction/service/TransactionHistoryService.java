@@ -10,13 +10,17 @@ import org.springframework.stereotype.Service;
 
 import com.auction.model.transaction.TransactionHistory;
 import com.auction.repository.TransactionHistoryRepository;
+import com.auction.model.Client;
 
 @Service
 public class TransactionHistoryService {
     @Autowired
     private TransactionHistoryRepository transactionHistoryRepository;
 
-    public List<TransactionHistory> findByClientId(int clientId) {
+    public List<TransactionHistory> findByClientId(Integer clientId) {
+        // Client client = new Client();
+        // client.setId(clientId);
+        // List<TransactionHistory> transactionsClient = transactionHistoryRepository.findByClient(client);   
         List<TransactionHistory> transactionsClient = new ArrayList<TransactionHistory>();
         List<TransactionHistory> transactions = transactionHistoryRepository.findAll();
         for (TransactionHistory transactionHistory: transactions) {
@@ -30,7 +34,6 @@ public class TransactionHistoryService {
         }
 
         Collections.sort(transactionsClient, Comparator.comparing(TransactionHistory::getDateTransaction).reversed());
-
         return transactionsClient;
 
     }

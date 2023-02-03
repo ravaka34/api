@@ -1,14 +1,13 @@
 package com.auction.model;
 
-import java.sql.Date;
-import java.time.LocalDate;
+import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 import com.auction.exception.WrongValueException;
 import com.auction.model.common.HasId;
 import com.fasterxml.jackson.annotation.JsonFormat;
+
 
 import lombok.Getter;
 
@@ -23,6 +22,7 @@ public class Client extends HasId {
     private String lastName;
     @Column
     @JsonFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
     private Date birthDate;
     @Column
     private String contact;
