@@ -102,9 +102,9 @@ public class AuctionService {
         auction.setDepositoryDate(new Timestamp(System.currentTimeMillis()));
         auction.setEndDate(new Timestamp(auction.getDepositoryDate().getTime() + auction.getDuration().longValue()));
         Category category = categoryRepository.findById(auction.getCategory().getId()).get();
-        // if(auction.getDuration() < category.getMinDuration() || auction.getDuration() > category.getMaxDuration()) {
-        //     throw new WrongValueException("Duration is not in the range");
-        // }
+        if(auction.getDuration() < category.getMinDuration() || auction.getDuration() > category.getMaxDuration()) {
+            throw new WrongValueException("Duration is not in the range");
+        }
         if(auction.getProductPictureList() == null || auction.getProductPictureList().isEmpty()){
             throw new WrongValueException("Product picture is mandatory");
         }
