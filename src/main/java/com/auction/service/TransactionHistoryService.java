@@ -33,7 +33,7 @@ public class TransactionHistoryService {
             }
         }
 
-        Collections.sort(transactionsClient, Comparator.comparing(TransactionHistory::getDateTransaction).reversed());
+        //Collections.sort(transactionsClient, Comparator.comparing(TransactionHistory::getDateTransaction).reversed());
         return transactionsClient;
 
     }
